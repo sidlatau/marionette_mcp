@@ -152,9 +152,11 @@ disconnecting.
   `take_screenshots` for a visual check) before the first gesture on a new
   screen. Don't infer what's on screen from memory of the source code — the
   whole point of Marionette is to check the *running* state. The listing is
-  compact by default: it drops rendering details and reports `visible` only
-  when an element is not visible. Pass `compaction: "none"`
-  (`--compaction=none` in the CLI) when you need the full property dump.
+  compact by default: it drops rendering details and properties at their
+  default value (no `enabled` means enabled, no `obscureText` means plain
+  text), and reports `visible` only when an element is not visible. Pass
+  `compaction: "none"` (`--compaction=none` in the CLI) when you need the full
+  property dump.
 - **Selector priority: `key` > `identifier` > `text` > `type`/coordinates.**
   Keys (`ValueKey<String>`) and Semantics `identifier`s survive copy changes,
   localization, and refactors; `text` breaks the moment a label is edited or

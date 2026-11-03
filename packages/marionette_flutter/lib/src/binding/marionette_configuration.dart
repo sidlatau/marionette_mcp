@@ -16,11 +16,12 @@ enum CompactionMode {
   /// Report every primitive property the widget declares.
   none,
 
-  /// Additionally drop rendering details no interaction tool reads
-  /// (`textAlign`, `softWrap`, `overflow`, …) and the text-style primitives a
-  /// `Text` inlines, drop `Text`'s `data` when it repeats `text`, round
-  /// `bounds` to whole logical pixels, and report `visible` only when an
-  /// element is not visible.
+  /// Additionally drop properties at the default value their widget declares
+  /// (a text field's `obscureText: false`, a button's `enabled: true`),
+  /// rendering details no interaction tool reads (`textAlign`, `softWrap`,
+  /// `overflow`, …) and the text-style primitives a `Text` inlines, drop
+  /// `Text`'s `data` when it repeats `text`, round `bounds` to whole logical
+  /// pixels, and report `visible` only when an element is not visible.
   compact,
 }
 
