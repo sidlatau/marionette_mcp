@@ -200,9 +200,9 @@ class ConceptsPage extends StatelessComponent {
               rich(
                 'The list never carries style, decoration or colour objects: '
                 'only primitive values. On top of that, the default '
-                '`CompactionMode.compact` drops rendering details no tool '
-                'reads and icon-font glyphs, drops a `Text` element’s '
-                'duplicated `data`, rounds '
+                '`CompactionMode.compact` drops properties at their default '
+                'value, rendering details no tool reads and icon-font '
+                'glyphs, drops a `Text` element’s duplicated `data`, rounds '
                 'bounds to whole logical pixels, and reports `visible` only '
                 'when an element is hidden. On the example app that makes '
                 'the payload about 65% smaller.',

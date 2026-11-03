@@ -1,5 +1,6 @@
 # Unreleased
 
+- **Behaviour change:** compact `get_interactive_elements` now drops properties at the default value their widget declares, as the widget inspector does. An untouched `TextField` no longer carries `obscureText`, `smartDashesType`, `maxLines`, `cursorWidth` and a dozen more flags, about 440 of its 520 characters, and an enabled button no longer reports `enabled: true`. Values that differ from the default, such as `obscureText: true` or `enabled: false`, are still reported
 - Drop icon-font glyphs from compact `get_interactive_elements`: each `Icon` was listed as a `RichText` whose text, a private-use code point, reads as empty and can't be matched. An icon's `semanticLabel` is still reported
 - Split the `marionette-flutter-drive-app` Agent Skill: app setup moves to the new `marionette-flutter-setup`, so a run that only drives the app no longer loads it. Add `marionette-flutter-to-patrol`, which turns a verified session (`steps.md`, `report.md`, screenshots) into Patrol tests. Run `dart run skills@ get` again to install them
 - Fix `record-video --width/--height` recording only the top-left corner of the screen at full scale instead of the whole screen scaled down to that size. Web recordings were not affected ([#134](https://github.com/leancodepl/marionette_mcp/issues/134))

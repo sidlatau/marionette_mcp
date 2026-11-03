@@ -117,10 +117,9 @@ class ElementTreeFinder {
               p.name != null &&
               p.value != null &&
               _isPrimitive(p.value) &&
-              !(compact && _isCompactNoise(p.name!)) &&
               !(compact &&
-                  p.value is String &&
-                  _isIconGlyph(p.value! as String)))
+                  (_isCompactNoise(p) ||
+                      p.value is String && _isIconGlyph(p.value! as String))))
           .map(
             (p) => MapEntry(p.name!, p.value.toString()),
           ),
@@ -227,8 +226,15 @@ class ElementTreeFinder {
     'leadingDistribution',
   };
 
-  static bool _isCompactNoise(String name) =>
-      _renderingDetails.contains(name) || _textStylePrimitives.contains(name);
+  /// A property at the default value its widget declares is filtered out of
+  /// the widget inspector's summary too — `obscureText: false`,
+  /// `maxLines: 1` and a dozen more on every text field. A value that differs
+  /// from the default, such as `obscureText: true` or a disabled button's
+  /// `enabled: false`, is still reported.
+  static bool _isCompactNoise(DiagnosticsNode property) =>
+      property.isFiltered(DiagnosticLevel.info) ||
+      _renderingDetails.contains(property.name) ||
+      _textStylePrimitives.contains(property.name);
 
   /// Whether [text] is made only of Unicode private-use code points, as the
   /// glyph an `Icon` renders from an icon font is. It reads as an empty string

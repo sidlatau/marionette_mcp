@@ -781,6 +781,64 @@ void main() {
       expect(compactBounds['x'], (verboseBounds['x']! as double).round());
     });
 
+    testWidgets('drops properties at the default value the widget declares',
+        (tester) async {
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: TextField(decoration: InputDecoration(labelText: 'Name')),
+          ),
+        ),
+      );
+
+      final verbose = _finder
+          .findInteractiveElements(compaction: CompactionMode.none)
+          .firstWhere((e) => e['type'] == 'TextField');
+      expect(verbose['obscureText'], 'false',
+          reason: 'CompactionMode.none keeps default values');
+
+      final compact = _finder
+          .findInteractiveElements(compaction: CompactionMode.compact)
+          .firstWhere((e) => e['type'] == 'TextField');
+      expect(
+        compact.keys,
+        unorderedEquals(['type', 'label', 'bounds']),
+        reason: 'a field with nothing set says nothing beyond its handle',
+      );
+    });
+
+    testWidgets('keeps properties that differ from their default value',
+        (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: Column(
+              children: [
+                const TextField(obscureText: true, enabled: false),
+                const ElevatedButton(onPressed: null, child: Text('Off')),
+                Switch(value: false, onChanged: (_) {}),
+              ],
+            ),
+          ),
+        ),
+      );
+
+      final elements =
+          _finder.findInteractiveElements(compaction: CompactionMode.compact);
+      final field = elements.firstWhere((e) => e['type'] == 'TextField');
+      expect(field['obscureText'], 'true');
+      expect(field['enabled'], 'false');
+      expect(
+        elements.firstWhere((e) => e['type'] == 'ElevatedButton')['enabled'],
+        'false',
+      );
+      expect(
+        elements.firstWhere((e) => e['type'] == 'Switch')['value'],
+        'false',
+        reason: 'Switch declares no default for value, so it is always kept',
+      );
+    });
+
     testWidgets('drops icon glyphs and keeps the icon semantic label',
         (tester) async {
       await tester.pumpWidget(

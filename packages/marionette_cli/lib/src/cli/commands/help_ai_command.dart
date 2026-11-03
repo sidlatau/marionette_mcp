@@ -130,10 +130,11 @@ List interactive UI elements in the app's widget tree.
     --ancestor-keys <str>  List only the elements inside the subtree of the
                            element with this key (grid cells, repeated
                            cards). Repeat it, outermost first, to go deeper
-    --compaction=compact   Reduce the payload further: drop rendering details
-                           (textAlign, softWrap, overflow, ...), text font
-                           metrics and icon-font glyphs, drop a Text
-                           element's duplicated data
+    --compaction=compact   Reduce the payload further: drop properties at
+                           their default value (an absent enabled means
+                           enabled), rendering details (textAlign, softWrap,
+                           overflow, ...), text font metrics and icon-font
+                           glyphs, drop a Text element's duplicated data
                            field, round bounds to whole logical pixels, and
                            report visible only when an element is not visible.
                            This is the default for most apps.
